@@ -34,15 +34,15 @@ CREATE TABLE public.office
 CREATE TABLE public.doc
 (
       code      SMALLINT NOT NULL PRIMARY KEY,
-      name      VARCHAR(50) NOT NULL,
-      CONSTRAINT code_length CHECK (code > 9 AND code < 100)
+      name      VARCHAR(150) NOT NULL,
+      CONSTRAINT code_length CHECK (code > 0 AND code < 100)
 );
 
 CREATE TABLE public.country
 (
       code      SMALLINT NOT NULL PRIMARY KEY,
-      name      VARCHAR(50) NOT NULL,
-      CONSTRAINT code_length CHECK (code > 99 AND code < 1000)
+      name      VARCHAR(150) NOT NULL,
+      CONSTRAINT code_length CHECK (code > 0 AND code < 1000)
 );
 
 CREATE TABLE public.user
@@ -75,3 +75,15 @@ CREATE TABLE public.user
       CONSTRAINT doc_code_length CHECK (doc_code > 9 AND doc_code < 100),
       CONSTRAINT citizenship_code_length CHECK (citizenship_code > 99 AND citizenship_code < 1000)
 );
+
+CREATE INDEX IX_organisation_name_inn_is_active ON public.organisation (name, inn, is_active);
+
+CREATE INDEX IX_office_org_id ON public.office (org_id);
+CREATE INDEX IX_office_org_id_name_phone_is_active ON public.office (org_id, name, phone, is_active);
+
+CREATE INDEX IX_org_id ON public.user (org_id);
+CREATE INDEX IX_off_id ON public.user (off_id);
+CREATE INDEX IX_doc_code ON public.user (doc_code);
+CREATE INDEX IX_citizenship_code ON public.user (citizenship_code);
+CREATE INDEX IX_user_off_id_first_name_second_name_middle_name_position_doc_code_citizenship_code
+  ON public.user (off_id, first_name, second_name, middle_name, position, doc_code, citizenship_code);
