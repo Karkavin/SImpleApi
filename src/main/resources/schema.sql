@@ -25,7 +25,7 @@ CREATE TABLE public.office
       address       VARCHAR(100) NOT NULL,
       phone         VARCHAR(20),
       is_active     BOOLEAN DEFAULT TRUE,
-      org_id        INT NOT NULL,
+      org_id        BIGINT NOT NULL,
       CONSTRAINT fk_office_organisation FOREIGN KEY (org_id) REFERENCES organisation (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
@@ -57,9 +57,9 @@ CREATE TABLE public.user
       doc_date            DATE,
       doc_code            SMALLINT,
       citizenship_code    SMALLINT,
-      is_indentifies      BOOLEAN DEFAULT FALSE ,
-      org_id              INT NOT NULL,
-      off_id              INT NOT NULL,
+      is_identified      BOOLEAN DEFAULT FALSE ,
+      org_id              BIGINT NOT NULL,
+      off_id              BIGINT NOT NULL,
       CONSTRAINT fk_user_organisation FOREIGN KEY (org_id) REFERENCES organisation (id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,

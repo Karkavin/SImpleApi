@@ -53,19 +53,19 @@ INSERT INTO country (code, name) VALUES (498, 'Республика Молдов
 INSERT INTO country (code, name) VALUES (795, 'Туркменистан');
 
 -- # USER TEST DATA #
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Иван', 'Домрычев', 'Сергеевич', 'Генеральный директор', '89271837495', '6310987789', '12-21-1990', 21, 643, TRUE, 1, 1);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Светлана', 'Галиева', 'Николаевна', 'Продавец', '89271098266', '6300181001', '05-18-1974', 21, 643, TRUE, 1, 1);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Семён', 'Повольный', 'Семёнович', 'Генеральный директор', '89279820989', '6301009918', '10-10-1975', 21, 643, TRUE, 2, 2);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Николай', 'Иванов', 'Иванович', 'Автомеханик', '89271299292', '6301009918', '12-13-1970', 21, 643, TRUE, 2, 3);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Пётр', 'Сидоров', 'Михайлович', 'Автомеханик', '89270991489', '6301023870', '02-19-1970', 21, 643, TRUE, 2, 4);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Арсений', 'Футулов', 'Николаевич', 'Автомеханик', '89271908297', '6305780987', '01-29-1978', 21, 643, TRUE, 2, 5);
-INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_indentifies, org_id, off_id)
+INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, is_identified, org_id, off_id)
     VALUES ('Пётр', 'Забывалов', 'Евгеньевич', 'Автомеханик', '89271239182', '6309000123', '04-11-1988', 21, 643, TRUE, 2, 5);
 INSERT INTO public.user (first_name, second_name, middle_name, position, phone, doc_number, doc_date, doc_code, citizenship_code, org_id, off_id)
     VALUES ('Евгений', 'Верный', 'Валерьевич', 'Генеральный директор', '89271237182', '6310182789', '01-01-1992', 21, 643, 3, 6);
