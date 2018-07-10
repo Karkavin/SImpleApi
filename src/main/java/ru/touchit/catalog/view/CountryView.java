@@ -1,16 +1,14 @@
-package ru.touchit.catalog.response;
+package ru.touchit.catalog.view;
 
-public class CountryResponse {
+import ru.touchit.catalog.model.Country;
+
+public class CountryView {
     private Short code;
     private String name;
 
-    public CountryResponse() {
-
-    }
-
-    public CountryResponse(Short code, String name) {
-        this.code = code;
-        this.name = name;
+    public CountryView(Country country) {
+        this.code = country.getCode();
+        this.name = country.getName();
     }
 
     public Short getCode() {

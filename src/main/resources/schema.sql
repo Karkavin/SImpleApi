@@ -9,13 +9,13 @@ CREATE TABLE public.organisation
       id            SERIAL NOT NULL PRIMARY KEY,
       name          VARCHAR(50) NOT NULL,
       full_name     VARCHAR(100) NOT NULL,
-      inn           BIGINT NOT NULL,
-      kpp           BIGINT NOT NULL,
+      inn           CHAR(10) NOT NULL,
+      kpp           CHAR(9) NOT NULL,
       address       VARCHAR(100) NOT NULL,
       phone         VARCHAR(20),
-      is_active     BOOLEAN DEFAULT TRUE,
-      CONSTRAINT inn_length CHECK (inn > 999999999 AND inn < 10000000000),
-      CONSTRAINT kpp_length CHECK (kpp > 99999999 AND kpp < 1000000000)
+      is_active     BOOLEAN DEFAULT TRUE
+      CONSTRAINT inn_length CHECK (CHAR_LENGTH(inn) = 10),
+      CONSTRAINT kpp_length CHECK (CHAR_LENGTH(kpp) = 9)
 );
 
 CREATE TABLE public.office

@@ -49,7 +49,7 @@ public class User {
     private Date docDate;
 
     @Column(name = "is_identified")
-    private Boolean isIdentified = false;
+    private boolean isIdentified = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_code")
@@ -135,11 +135,11 @@ public class User {
         this.docDate = docDate;
     }
 
-    public Boolean getIdentified() {
+    public boolean getIsIdentified() {
         return isIdentified;
     }
 
-    public void setIdentified(Boolean identified) {
+    public void setIsIdentified(boolean identified) {
         isIdentified = identified;
     }
 

@@ -28,11 +28,11 @@ public class Organisation {
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
-    @Column(name = "inn", nullable = false)
-    private Long inn;
+    @Column(name = "inn", nullable = false, length = 10)
+    private String inn;
 
-    @Column(name = "kpp", nullable = false)
-    private Long kpp;
+    @Column(name = "kpp", nullable = false, length = 9)
+    private String kpp;
 
     @Column(name = "address", nullable = false, length = 100)
     private String address;
@@ -41,7 +41,7 @@ public class Organisation {
     private String phone;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private boolean isActive = true;
 
     @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Office> offices;
@@ -51,6 +51,17 @@ public class Organisation {
 
     public Organisation() {
 
+    }
+
+    public Organisation(String name, String fullName, String inn, String kpp, String address, String phone,
+                        boolean isActive) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -77,19 +88,19 @@ public class Organisation {
         this.fullName = fullName;
     }
 
-    public Long getInn() {
+    public String getInn() {
         return inn;
     }
 
-    public void setInn(Long inn) {
+    public void setInn(String inn) {
         this.inn = inn;
     }
 
-    public Long getKpp() {
+    public String getKpp() {
         return kpp;
     }
 
-    public void setKpp(Long kpp) {
+    public void setKpp(String kpp) {
         this.kpp = kpp;
     }
 
@@ -109,11 +120,11 @@ public class Organisation {
         this.phone = phone;
     }
 
-    public Boolean getActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

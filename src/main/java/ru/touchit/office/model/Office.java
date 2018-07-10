@@ -35,7 +35,7 @@ public class Office {
     private String phone;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
@@ -80,11 +80,11 @@ public class Office {
         this.phone = phone;
     }
 
-    public Boolean getActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

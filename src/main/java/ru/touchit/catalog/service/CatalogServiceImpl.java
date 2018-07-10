@@ -7,8 +7,11 @@ import ru.touchit.catalog.dao.CountryDao;
 import ru.touchit.catalog.dao.DocDao;
 import ru.touchit.catalog.model.Country;
 import ru.touchit.catalog.model.Doc;
+import ru.touchit.catalog.view.CountryView;
+import ru.touchit.catalog.view.DocView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("catalogService")
 @Transactional
@@ -23,12 +26,20 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public List<Country> getCountries() {
-        return countryDao.findAll();
+    public List<CountryView> getCountries() {
+        List<Country> countries = countryDao.findAll();
+
+        return countries.stream()
+                .map(CountryView::new)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Doc> getDocs() {
-        return docDao.findAll();
+    public List<DocView> getDocs() {
+        List<Doc> docs = docDao.findAll();
+
+        return docs.stream()
+                .map(DocView::new)
+                .collect(Collectors.toList());
     }
 }

@@ -1,10 +1,10 @@
 -- # ORGANISATION TEST DATA #
 INSERT INTO organisation (name, full_name, inn, kpp, address, phone)
-    VALUES ('Art of flowers', 'LLC "Art of flowers"', 1294516859, 345511225, '410015, Россия, г. Саратов, ул. Дзержинского, 12', '89279236287');
+    VALUES ('Art of flowers', 'LLC "Art of flowers"', '1294516859', '345511225', '410015, Россия, г. Саратов, ул. Дзержинского, 12', '89279236287');
 INSERT INTO organisation (name, full_name, inn, kpp, address, phone)
-    VALUES ('SmartAuto', 'LLC "SmartAuto"', 4091526808, 305401325, '410038, Россия, г. Саратов, ул. Посадского, 180/198', '89272298277');
+    VALUES ('SmartAuto', 'LLC "SmartAuto"', '4091526808', '305401325', '410038, Россия, г. Саратов, ул. Посадского, 180/198', '89272298277');
 INSERT INTO organisation (name, full_name, inn, kpp, address, phone, is_active)
-    VALUES ('MobileDev', 'LLC "MobileDev"', 8190821009, 909002961, '410039, Россия, г. Саратов, ул. Волжская, 24/26', '89270918570', FALSE);
+    VALUES ('MobileDev', 'LLC "MobileDev"', '8190821009', '909002961', '410039, Россия, г. Саратов, ул. Волжская, 24/26', '89270918570', FALSE);
 
 -- # OFFICE TEST DATA #
 INSERT INTO office (name, address, phone, org_id)
