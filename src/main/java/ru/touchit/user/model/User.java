@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import java.util.Date;
 
 @Entity
@@ -26,9 +25,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Version
-    private Integer version;
 
     @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;

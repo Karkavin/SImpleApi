@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,9 +17,6 @@ public class Country {
     @Id
     @Column(name = "code")
     private Short code;
-
-    @Version
-    private Integer version;
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;

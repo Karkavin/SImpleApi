@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,9 +24,6 @@ public class Office {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Version
-    private Integer version;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
