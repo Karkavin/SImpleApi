@@ -8,15 +8,15 @@ INSERT INTO organisation (name, full_name, inn, kpp, address, phone, is_active)
 
 -- # OFFICE TEST DATA #
 INSERT INTO office (name, address, phone, org_id)
-    VALUES ('Главный офис', '410015, Россия, г. Саратов, ул. Дзержинского, 12', '89279236287', 1);
+    VALUES ('Head office', '410015, Россия, г. Саратов, ул. Дзержинского, 12', '89279236287', 1);
 INSERT INTO office (name, address, phone, org_id)
-    VALUES ('Главный офис', '410038, Россия, г. Саратов, ул. Посадского, 180/198', '89272298277', 2);
+    VALUES ('Head office', '410038, Россия, г. Саратов, ул. Посадского, 180/198', '89272298277', 2);
 INSERT INTO office (name, address, phone, org_id)
-    VALUES ('СТО на Большой Горной', '410023, Россия, г. Саратов, ул. Большая Горная, 136', '89271820098', 2);
+    VALUES ('Car repair shop #1', '410023, Россия, г. Саратов, ул. Большая Горная, 136', '89271820098', 2);
 INSERT INTO office (name, address, phone, org_id)
-    VALUES ('СТО на Соколовогорской', '410062, Россия, г. Саратов, ул. Соколовогорская, 9', '89271919182', 2);
+    VALUES ('Car repair shop #2', '410062, Россия, г. Саратов, ул. Соколовогорская, 9', '89271919182', 2);
 INSERT INTO office (name, address, phone, is_active, org_id)
-    VALUES ('СТО на Рабочей', '410049, Россия, г. Саратов, ул. Рабочая, 158', '89275890981', FALSE, 2);
+    VALUES ('Car repair shop #3', '410049, Россия, г. Саратов, ул. Рабочая, 158', '89275890981', FALSE, 2);
 INSERT INTO office (name, address, phone, is_active, org_id)
     VALUES ('MobileDev', '410039, Россия, г. Саратов, ул. Волжская, 24/26', '89270918570', FALSE, 3);
 

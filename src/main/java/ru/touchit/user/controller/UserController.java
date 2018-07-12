@@ -17,6 +17,7 @@ import ru.touchit.office.exception.NoSuchOfficeException;
 import ru.touchit.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.user.exception.IncorrectDateException;
 import ru.touchit.user.exception.NoSuchUserException;
+import ru.touchit.user.exception.OfficeDoesNotInOrganisationException;
 import ru.touchit.user.service.UserService;
 import ru.touchit.user.view.BaseUserView;
 import ru.touchit.user.view.FilterResultUserView;
@@ -67,6 +68,8 @@ public class UserController {
             return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе"));
         } catch (NoSuchCountryException e) {
             return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе"));
+        } catch (OfficeDoesNotInOrganisationException e) {
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
@@ -94,6 +97,8 @@ public class UserController {
             return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе"));
         } catch (NoSuchDocException e) {
             return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе"));
+        } catch (OfficeDoesNotInOrganisationException e) {
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));

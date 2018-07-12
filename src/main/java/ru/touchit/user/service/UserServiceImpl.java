@@ -18,6 +18,7 @@ import ru.touchit.organisation.model.Organisation;
 import ru.touchit.user.dao.UserDao;
 import ru.touchit.user.exception.IncorrectDateException;
 import ru.touchit.user.exception.NoSuchUserException;
+import ru.touchit.user.exception.OfficeDoesNotInOrganisationException;
 import ru.touchit.user.model.User;
 import ru.touchit.user.view.BaseUserView;
 import ru.touchit.user.view.FilterResultUserView;
@@ -66,14 +67,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(BaseUserView userView) throws NoSuchOrganisationException, NoSuchOfficeException,
-            IncorrectDateException, NoSuchDocException, NoSuchCountryException {
+            IncorrectDateException, NoSuchDocException, NoSuchCountryException,
+            OfficeDoesNotInOrganisationException {
         customAddUpdate(userView, true);
     }
 
     @Override
     @Transactional
     public void update(FullUserView userView) throws NoSuchUserException, NoSuchOrganisationException,
-            NoSuchOfficeException, IncorrectDateException, NoSuchDocException, NoSuchCountryException {
+            NoSuchOfficeException, IncorrectDateException, NoSuchDocException, NoSuchCountryException,
+            OfficeDoesNotInOrganisationException {
         Optional<User> optional = userDao.findById(userView.getId());
 
         if (!optional.isPresent()) {
@@ -132,7 +135,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private void customAddUpdate(BaseUserView userView, boolean isNew) throws NoSuchOrganisationException,
-            NoSuchOfficeException, IncorrectDateException, NoSuchDocException, NoSuchCountryException {
+            NoSuchOfficeException, IncorrectDateException, NoSuchDocException, NoSuchCountryException,
+            OfficeDoesNotInOrganisationException {
         Optional<Organisation> optionalOrganisation = organisationDao.findById(userView.getOrgId());
         Optional<Office> optionalOffice = officeDao.findById(userView.getOffId());
 
@@ -141,6 +145,10 @@ public class UserServiceImpl implements UserService {
         } else if (!optionalOffice.isPresent()) {
             throw new NoSuchOfficeException("No such office with id " + userView.getOffId());
         } else {
+            if (!optionalOffice.get().getOrganisation().getId().equals(optionalOrganisation.get().getId())) {
+                throw new OfficeDoesNotInOrganisationException("No office with id = " + optionalOffice.get().getId() +
+                        " in organisation with id = " + optionalOrganisation.get().getId());
+            }
             DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
             Date date;
             try {
