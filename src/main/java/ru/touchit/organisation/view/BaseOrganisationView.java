@@ -29,7 +29,7 @@ public class BaseOrganisationView {
     @Size(max = 20)
     private String phone;
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     public BaseOrganisationView() {
 

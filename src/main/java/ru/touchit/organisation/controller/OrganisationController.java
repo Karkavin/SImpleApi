@@ -12,7 +12,6 @@ import ru.touchit.common.DataResponse;
 import ru.touchit.common.ErrorResponse;
 import ru.touchit.common.ResultResponse;
 import ru.touchit.organisation.exception.NoSuchOrganisationException;
-import ru.touchit.organisation.model.Organisation;
 import ru.touchit.organisation.view.BaseOrganisationView;
 import ru.touchit.organisation.service.OrganisationService;
 import ru.touchit.organisation.view.FilterOrganisationView;
@@ -34,13 +33,15 @@ public class OrganisationController {
 
     @RequestMapping(value="/api/organisation/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> detail(@PathVariable Long id) {
-        try {
-            Organisation organisation = organisationService.getById(id);
+        FullOrganisationView organisationView;
 
-            return ResponseEntity.ok().body(new DataResponse<>(new FullOrganisationView(organisation)));
+        try {
+            organisationView = organisationService.getById(id);
         } catch (NoSuchOrganisationException e) {
             return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
         }
+
+        return ResponseEntity.ok().body(new DataResponse<>(organisationView));
     }
 
     @RequestMapping(value="/api/organisation/save", method = RequestMethod.POST)
@@ -74,7 +75,7 @@ public class OrganisationController {
     }
 
     @RequestMapping(value="/api/organisation/list", method = RequestMethod.POST)
-    public ResponseEntity<?> update(@RequestBody @Valid FilterOrganisationView organisationView, BindingResult bindingResult) {
+    public ResponseEntity<?> filter(@RequestBody @Valid FilterOrganisationView organisationView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errorMessage = BindingResultParser.parseBindingResultError(bindingResult);
 

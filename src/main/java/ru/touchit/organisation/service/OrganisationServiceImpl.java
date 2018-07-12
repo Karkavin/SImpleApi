@@ -26,13 +26,14 @@ public class OrganisationServiceImpl implements OrganisationService {
     }
 
     @Override
-    public Organisation getById(Long id) throws NoSuchOrganisationException {
+    @Transactional(readOnly = true)
+    public FullOrganisationView getById(Long id) throws NoSuchOrganisationException {
         Optional<Organisation> optional = organisationDao.findById(id);
 
         if (!optional.isPresent()) {
             throw new NoSuchOrganisationException("No such organisation with id " + id);
         } else{
-            return optional.get();
+            return new FullOrganisationView(optional.get());
         }
     }
 
@@ -80,13 +81,13 @@ public class OrganisationServiceImpl implements OrganisationService {
         }
 
         if (organisationView.getIsActive() == null) {
-            return organisationDao.findByNameAndInn(
-                    organisationView.getName(), inn).stream()
+            return organisationDao.findByNameAndInn(organisationView.getName(), inn)
+                    .stream()
                     .map(mapOrganisation())
                     .collect(Collectors.toList());
         } else {
-            return organisationDao.findByNameAndInnAndIsActive(
-                    organisationView.getName(), inn, organisationView.getIsActive()).stream()
+            return organisationDao.findByNameAndInnAndIsActive(organisationView.getName(), inn, organisationView.getIsActive())
+                    .stream()
                     .map(mapOrganisation())
                     .collect(Collectors.toList());
         }

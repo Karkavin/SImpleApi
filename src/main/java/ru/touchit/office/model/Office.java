@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "organisation", catalog = "public")
+@Table(name = "office", catalog = "public")
 public class Office {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +46,14 @@ public class Office {
 
     public Office() {
 
+    }
+
+    public Office(Organisation organisation, String name, String address, String phone, boolean isActive) {
+        this.organisation = organisation;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
     }
 
     public Long getId() {
