@@ -80,13 +80,13 @@ public class OrganisationServiceImpl implements OrganisationService {
             inn = "";
         }
 
-        if (organisationView.getIsActive() == null) {
-            return organisationDao.findByNameAndInn(organisationView.getName(), inn)
+        if (organisationView.getIsActive() != null) {
+            return organisationDao.findByNameAndInnAndIsActive(organisationView.getName(), inn, organisationView.getIsActive())
                     .stream()
                     .map(mapOrganisation())
                     .collect(Collectors.toList());
         } else {
-            return organisationDao.findByNameAndInnAndIsActive(organisationView.getName(), inn, organisationView.getIsActive())
+            return organisationDao.findByNameAndInn(organisationView.getName(), inn)
                     .stream()
                     .map(mapOrganisation())
                     .collect(Collectors.toList());

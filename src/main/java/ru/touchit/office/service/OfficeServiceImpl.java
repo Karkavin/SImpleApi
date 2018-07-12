@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.touchit.office.dao.OfficeDao;
 import ru.touchit.office.exception.NoSuchOfficeException;
 import ru.touchit.office.model.Office;
+import ru.touchit.office.view.BaseOfficeView;
 import ru.touchit.office.view.FilterOfficeView;
 import ru.touchit.office.view.FilterResultOfficeView;
 import ru.touchit.office.view.FullOfficeView;
-import ru.touchit.office.view.NewOfficeView;
 import ru.touchit.organisation.dao.OrganisationDao;
 import ru.touchit.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.organisation.model.Organisation;
@@ -44,7 +44,7 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     @Transactional
-    public void add(NewOfficeView officeView) throws NoSuchOrganisationException {
+    public void add(BaseOfficeView officeView) throws NoSuchOrganisationException {
         Optional<Organisation> optional = organisationDao.findById(officeView.getOrgId());
 
         if (!optional.isPresent()) {
@@ -62,13 +62,17 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     @Transactional
-    public void update(FullOfficeView officeView) throws NoSuchOfficeException {
-        Optional<Office> optional = officeDao.findById(officeView.getId());
+    public void update(FullOfficeView officeView) throws NoSuchOfficeException, NoSuchOrganisationException {
+        Optional<Office> optionalOffice = officeDao.findById(officeView.getId());
+        Optional<Organisation> optionalOrganisation = organisationDao.findById(officeView.getOrgId());
 
-        if (!optional.isPresent()) {
+        if (!optionalOffice.isPresent()) {
             throw new NoSuchOfficeException("No such office with id " + officeView.getId());
-        } else {
-            Office officeFromDB = optional.get();
+        } else if (!optionalOrganisation.isPresent()) {
+            throw new NoSuchOrganisationException("No such organisation with id " + officeView.getOrgId());
+        } else{
+            Office officeFromDB = optionalOffice.get();
+            officeFromDB.setOrganisation(optionalOrganisation.get());
             officeFromDB.setName(officeView.getName());
             officeFromDB.setAddress(officeView.getAddress());
             officeFromDB.setPhone(officeView.getPhone());

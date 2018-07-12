@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("catalogService")
-@Transactional
 public class CatalogServiceImpl implements CatalogService {
     CountryDao countryDao;
     DocDao docDao;
@@ -26,6 +25,7 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CountryView> getCountries() {
         List<Country> countries = countryDao.findAll();
 
@@ -35,6 +35,7 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DocView> getDocs() {
         List<Doc> docs = docDao.findAll();
 

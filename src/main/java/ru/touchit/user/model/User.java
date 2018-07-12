@@ -71,6 +71,21 @@ public class User {
 
     }
 
+    public User(Organisation organisation, Office office, Doc doc, Country country, String firstName, String secondName, String middleName, String position, String phone, String docNumber, Date docDate, boolean isIdentified) {
+        this.organisation = organisation;
+        this.office = office;
+        this.doc = doc;
+        this.country = country;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.middleName = middleName;
+        this.position = position;
+        this.phone = phone;
+        this.docNumber = docNumber;
+        this.docDate = docDate;
+        this.isIdentified = isIdentified;
+    }
+
     public Long getId() {
         return id;
     }

@@ -19,6 +19,8 @@ public class BaseOfficeView {
 
     private Boolean isActive = true;
 
+    private long orgId;
+
     public BaseOfficeView() {
 
     }
@@ -28,6 +30,7 @@ public class BaseOfficeView {
         this.address = office.getAddress();
         this.phone = office.getPhone();
         this.isActive = office.getIsActive();
+        this.orgId = office.getOrganisation().getId();
     }
 
     public String getName() {
@@ -60,5 +63,13 @@ public class BaseOfficeView {
 
     public void setIsActive(Boolean active) {
         isActive = active;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 }
