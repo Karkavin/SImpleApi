@@ -7,45 +7,68 @@ import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * View для представления подробной информации о пользователе (без id)
+ * @autor Artyom Karkavin
+ */
 public class BaseUserView {
+    /** Поле: имя */
     @NotNull
     @Size(max = 30)
     private String firstName;
 
+    /** Поле: фамилия */
     @Size(max = 30)
     private String secondName;
 
+    /** Поле: отчество */
     @Size(max = 30)
     private String middleName;
 
+    /** Поле: должность */
     @NotNull
     @Size(max = 50)
     private String position;
 
+    /** Поле: телефон */
     @Size(max = 20)
     private String phone;
 
+    /** Поле: номер документа */
     @Size(max = 30)
     private String docNumber;
 
+    /** Поле: дата выдачи документа */
     private String docDate;
 
+    /** Поле: идентифицирован ли сотрудник */
     private Boolean isIdentified = false;
 
+    /** Поле: код документа */
     private Short docCode;
 
+    /** Поле: код страны */
     private Short citizenshipCode;
 
+    /** Поле: код организации */
     @NotNull
     private long orgId;
 
+    /** Поле: код офиса */
     @NotNull
     private long offId;
 
+    /**
+     * Конструктор
+     */
     public BaseUserView() {
 
     }
 
+    /**
+     * Конструктор
+     * @param user сущность Сотрудник
+     */
     public BaseUserView(User user) {
         this.firstName = user.getFirstName();
         this.secondName = user.getSecondName();

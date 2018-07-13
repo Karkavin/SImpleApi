@@ -19,17 +19,29 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ * @autor Artyom Karkavin
+ */
 @Service("officeService")
 public class OfficeServiceImpl implements OfficeService {
     OfficeDao officeDao;
     OrganisationDao organisationDao;
 
+    /**
+     * Конструктор
+     * @param officeDao Dao для работы с офисами
+     * @param organisationDao Dao для работы с организациями
+     */
     @Autowired
     public OfficeServiceImpl(OfficeDao officeDao, OrganisationDao organisationDao) {
         this.officeDao = officeDao;
         this.organisationDao = organisationDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public FullOfficeView getById(Long id) throws NoSuchOfficeException {
@@ -42,6 +54,9 @@ public class OfficeServiceImpl implements OfficeService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void add(BaseOfficeView officeView) throws NoSuchOrganisationException {
@@ -60,6 +75,9 @@ public class OfficeServiceImpl implements OfficeService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(FullOfficeView officeView) throws NoSuchOfficeException, NoSuchOrganisationException {
@@ -82,6 +100,9 @@ public class OfficeServiceImpl implements OfficeService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<FilterResultOfficeView> filter(FilterOfficeView officeView) throws NoSuchOrganisationException {

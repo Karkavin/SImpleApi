@@ -23,15 +23,28 @@ import ru.touchit.util.BindingResultParser;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер для работы с офисами
+ * @autor Artyom Karkavin
+ */
 @RestController
 public class OfficeController {
     private final OfficeService officeService;
 
+    /**
+     * Конструктор
+     * @param officeService - сервис для работы с данными
+     */
     @Autowired
     public OfficeController(OfficeService officeService) {
         this.officeService = officeService;
     }
 
+    /**
+     * Получение подробной информации об офисе
+     * @param id идентификатор офиса
+     * @return data: подробная информация об офисе
+     */
     @RequestMapping(value="/api/office/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> detail(@PathVariable Long id) {
         try {
@@ -43,6 +56,12 @@ public class OfficeController {
         }
     }
 
+    /**
+     * Добавление нового офиса для организации
+     * @param officeView JSON (без id)
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/office/save", method = RequestMethod.POST)
     public ResponseEntity<?> save(@RequestBody @Valid BaseOfficeView officeView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -60,6 +79,12 @@ public class OfficeController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Обновление офиса
+     * @param officeView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/office/update", method = RequestMethod.POST)
     public ResponseEntity<?> update(@RequestBody @Valid FullOfficeView officeView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -79,6 +104,12 @@ public class OfficeController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Получение списка офисов организации с применением фильтров
+     * @param officeView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: список офисов организации
+     */
     @RequestMapping(value="/api/office/list", method = RequestMethod.POST)
     public ResponseEntity<?> filter(@RequestBody @Valid FilterOfficeView officeView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

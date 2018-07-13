@@ -2,27 +2,51 @@ package ru.touchit.user.view;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * View для представления запрашиваемых фильтров
+ * @autor Artyom Karkavin
+ */
 public class FilterUserView {
+    /** Поле: идентификатор офиса */
     @NotNull
     private long offId;
 
+    /** Поле: имя */
     private String firstName;
 
+    /** Поле: фамилия */
     private String secondName;
 
+    /** Поле: отчество */
     private String middleName;
 
+    /** Поле: должность */
     private String position;
 
+    /** Поле: код документа */
     private Short docCode;
 
+    /** Поле: код страны */
     private Short citizenshipCode;
 
+    /**
+     * Конструктор
+     */
     public FilterUserView() {
 
     }
 
-    public FilterUserView(@NotNull long offId, String firstName, String secondName,
+    /**
+     * Конструктор
+     * @param offId идентификатор офиса
+     * @param firstName имя
+     * @param secondName фамилия
+     * @param middleName отчество
+     * @param position должность
+     * @param docCode код документа
+     * @param citizenshipCode код страны
+     */
+    public FilterUserView(long offId, String firstName, String secondName,
                           String middleName, String position, Short docCode, Short citizenshipCode) {
         this.offId = offId;
         this.firstName = firstName;

@@ -10,7 +10,22 @@ import ru.touchit.user.model.User;
 
 import java.util.List;
 
+/**
+ * Dao для работы с сотрудниками
+ * @autor Artyom Karkavin
+ */
 public interface UserDao extends CrudRepository<User, Long> {
+    /**
+     * Получение списка сотрудников офиса в организации с применением фильтров
+     * @param office сущность Офис
+     * @param firstName имя
+     * @param secondName фамилия
+     * @param middleName отчество
+     * @param position должность
+     * @param doc сущность Документ
+     * @param country сущность Страна
+     * @return список сотрудников офиса в организации
+     */
     @Query("SELECT u FROM User u WHERE " +
             "   u.office = :office" +
             "   AND LOWER(u.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) " +

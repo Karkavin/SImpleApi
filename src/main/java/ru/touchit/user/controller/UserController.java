@@ -17,7 +17,7 @@ import ru.touchit.office.exception.NoSuchOfficeException;
 import ru.touchit.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.user.exception.IncorrectDateException;
 import ru.touchit.user.exception.NoSuchUserException;
-import ru.touchit.user.exception.OfficeDoesNotInOrganisationException;
+import ru.touchit.office.exception.OfficeDoesNotInOrganisationException;
 import ru.touchit.user.service.UserService;
 import ru.touchit.user.view.BaseUserView;
 import ru.touchit.user.view.FilterResultUserView;
@@ -28,15 +28,28 @@ import ru.touchit.util.BindingResultParser;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер для работы с сотрудниками
+ * @autor Artyom Karkavin
+ */
 @RestController
 public class UserController {
     private final UserService userService;
 
+    /**
+     * Конструктор
+     * @param userService - сервис для работы с данными
+     */
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Получение подробной информации о сотруднике
+     * @param id идентификатор сотрудника
+     * @return data: подробная информация о сотруднике
+     */
     @RequestMapping(value="/api/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> detail(@PathVariable Long id) {
         try {
@@ -48,6 +61,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Добавление нового сотрудника в офис организации
+     * @param userView JSON (без id)
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/user/save", method = RequestMethod.POST)
     public ResponseEntity<?> save(@RequestBody @Valid BaseUserView userView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -75,6 +94,12 @@ public class UserController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Обновление данных сотрудника
+     * @param userView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/user/update", method = RequestMethod.POST)
     public ResponseEntity<?> update(@RequestBody @Valid FullUserView userView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -104,6 +129,12 @@ public class UserController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Получение списка сотрудников офиса в организации с применением фильтров
+     * @param userView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: список сотрудников офиса в организации
+     */
     @RequestMapping(value="/api/user/list", method = RequestMethod.POST)
     public ResponseEntity<?> filter(@RequestBody @Valid FilterUserView userView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

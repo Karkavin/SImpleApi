@@ -2,20 +2,38 @@ package ru.touchit.office.view;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * View для представления запрашиваемых фильтров
+ * @autor Artyom Karkavin
+ */
 public class FilterOfficeView {
+    /** Поле: идентификатор организации */
     @NotNull
     private long orgId;
 
+    /** Поле: наименование */
     private String name;
 
+    /** Поле: телефон */
     private String phone;
 
+    /** Поле: статус офиса (активен ли) */
     private Boolean isActive;
 
+    /**
+     * Конструктор
+     */
     public FilterOfficeView() {
 
     }
 
+    /**
+     * Конструктор
+     * @param orgId идентификатор организации
+     * @param name наименование
+     * @param phone телефон
+     * @param isActive статус офиса (активен ли)
+     */
     public FilterOfficeView(long orgId, String name, String phone, Boolean isActive) {
         this.orgId = orgId;
         this.name = name;

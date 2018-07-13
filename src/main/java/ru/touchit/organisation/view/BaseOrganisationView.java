@@ -5,36 +5,54 @@ import ru.touchit.organisation.model.Organisation;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * View для представления подробной информации об организации (без id)
+ * @autor Artyom Karkavin
+ */
 public class BaseOrganisationView {
+    /** Поле: наименование */
     @NotNull
     @Size(max = 50)
     private String name;
 
+    /** Поле: полное наименование */
     @NotNull
     @Size(max = 100)
     private String fullName;
 
+    /** Поле: ИНН */
     @NotNull
     @Size(min = 10, max = 10)
     private String inn;
 
+    /** Поле: КПП */
     @NotNull
     @Size(min = 9, max = 9)
     private String kpp;
 
+    /** Поле: адрес регистрации организации */
     @NotNull
     @Size(max = 100)
     private String address;
 
+    /** Поле: телефон */
     @Size(max = 20)
     private String phone;
 
+    /** Поле: статус (действующая ли) */
     private Boolean isActive = true;
 
+    /**
+     * Конструктор
+     */
     public BaseOrganisationView() {
 
     }
 
+    /**
+     * Конструктор
+     * @param organisation Entity сущности Организация
+     */
     public BaseOrganisationView(Organisation organisation) {
         this.name = organisation.getName();
         this.fullName = organisation.getFullName();

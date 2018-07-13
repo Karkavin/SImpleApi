@@ -11,19 +11,29 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity для сущности Документ
+ * @autor Artyom Karkavin
+ */
 @Entity
 @Table(name = "doc", catalog = "public")
 public class Doc {
+    /** Поле: код документа */
     @Id
     @Column(name = "code")
     private Short code;
 
+    /** Поле: наименование */
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
+    /** Поле: связь с сущностью Сотрудник */
     @OneToMany(mappedBy = "doc", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<User> users;
 
+    /**
+     * Конструктор
+     */
     public Doc() {
 
     }

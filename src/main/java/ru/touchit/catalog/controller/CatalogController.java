@@ -12,15 +12,27 @@ import ru.touchit.common.DataResponse;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с каталогами (документы и страны)
+ * @autor Artyom Karkavin
+ */
 @RestController
 public class CatalogController {
     private final CatalogService catalogService;
 
+    /**
+     * Конструктор
+     * @param catalogService сервис для работы с данными
+     */
     @Autowired
     public CatalogController(CatalogService catalogService) {
         this.catalogService = catalogService;
     }
 
+    /**
+     * Получение списка документов
+     * @return data: список документов
+     */
     @RequestMapping(value="/api/docs", method = RequestMethod.GET)
     public ResponseEntity<?> docs() {
         List<DocView> docsView = catalogService.getDocs();
@@ -28,6 +40,10 @@ public class CatalogController {
         return ResponseEntity.ok().body(new DataResponse<>(docsView));
     }
 
+    /**
+     * Получение списка стран
+     * @return data: список стран
+     */
     @RequestMapping(value="/api/countries", method = RequestMethod.GET)
     public ResponseEntity<?> countries() {
         List<CountryView> countriesView = catalogService.getCountries();

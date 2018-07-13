@@ -4,14 +4,25 @@ import ru.touchit.office.model.Office;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * View для представления подробной информации об офисе
+ * @autor Artyom Karkavin
+ */
 public class FullOfficeView extends BaseOfficeView {
+    /** Поле: идентификатор */
     @NotNull
     private long id;
 
+    /**
+     * Конструктор
+     */
     public FullOfficeView() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public FullOfficeView(Office office) {
         super(office);
 

@@ -17,37 +17,54 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity для сущности Офис
+ * @autor Artyom Karkavin
+ */
 @Entity
 @Table(name = "office", catalog = "public")
 public class Office {
+    /** Поле: идентификатор */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    /** Поле: наименование */
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    /** Поле: адрес */
     @Column(name = "address", nullable = false, length = 100)
     private String address;
 
+    /** Поле: телефон */
     @Column(name = "phone", length = 20)
     private String phone;
 
+    /** Поле: статус офиса (активен ли) */
     @Column(name = "is_active")
     private boolean isActive = true;
 
+    /** Поле: связь с сущностью Организация */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private Organisation organisation;
 
+    /** Поле: связь с сущностью Сотрудник */
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<User> users;
 
+    /**
+     * Конструктор
+     */
     public Office() {
 
     }
 
+    /**
+     * Конструктор
+     */
     public Office(Organisation organisation, String name, String address, String phone, boolean isActive) {
         this.organisation = organisation;
         this.name = name;

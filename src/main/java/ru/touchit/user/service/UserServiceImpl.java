@@ -18,7 +18,7 @@ import ru.touchit.organisation.model.Organisation;
 import ru.touchit.user.dao.UserDao;
 import ru.touchit.user.exception.IncorrectDateException;
 import ru.touchit.user.exception.NoSuchUserException;
-import ru.touchit.user.exception.OfficeDoesNotInOrganisationException;
+import ru.touchit.office.exception.OfficeDoesNotInOrganisationException;
 import ru.touchit.user.model.User;
 import ru.touchit.user.view.BaseUserView;
 import ru.touchit.user.view.FilterResultUserView;
@@ -34,6 +34,10 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ * @autor Artyom Karkavin
+ */
 @Service("userService")
 public class UserServiceImpl implements UserService {
     UserDao userDao;
@@ -42,6 +46,14 @@ public class UserServiceImpl implements UserService {
     DocDao docDao;
     CountryDao countryDao;
 
+    /**
+     * Конструктор
+     * @param userDao Dao для работы с сотрудниками
+     * @param organisationDao Dao для работы с организациями
+     * @param officeDao Dao для работы с офисами
+     * @param docDao Dao для работы с документами
+     * @param countryDao Dao для работы со странами
+     */
     @Autowired
     public UserServiceImpl(UserDao userDao, OrganisationDao organisationDao,
                            OfficeDao officeDao, DocDao docDao, CountryDao countryDao){
@@ -52,6 +64,9 @@ public class UserServiceImpl implements UserService {
         this.countryDao = countryDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public FullUserView getById(Long id) throws NoSuchUserException {
@@ -64,6 +79,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void add(BaseUserView userView) throws NoSuchOrganisationException, NoSuchOfficeException,
@@ -72,6 +90,9 @@ public class UserServiceImpl implements UserService {
         customAddUpdate(userView, true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(FullUserView userView) throws NoSuchUserException, NoSuchOrganisationException,
@@ -86,6 +107,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<FilterResultUserView> filter(FilterUserView userView)

@@ -1,16 +1,32 @@
 package ru.touchit.office.view;
 
+/**
+ * View для представления результатов работы фильтров
+ * @autor Artyom Karkavin
+ */
 public class FilterResultOfficeView {
+    /** Поле: идентификатор */
     private long id;
 
+    /** Поле: наименование */
     private String name;
 
+    /** Поле: статус офиса (активен ли) */
     private Boolean isActive;
 
+    /**
+     * Конструктор
+     */
     public FilterResultOfficeView() {
 
     }
 
+    /**
+     * Конструктор
+     * @param id идентификатор
+     * @param name наименование
+     * @param isActive статус офиса (активен ли)
+     */
     public FilterResultOfficeView(long id, String name, Boolean isActive) {
         this.id = id;
         this.name = name;

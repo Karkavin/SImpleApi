@@ -13,17 +13,29 @@ import ru.touchit.catalog.view.DocView;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ * @autor Artyom Karkavin
+ */
 @Service("catalogService")
 public class CatalogServiceImpl implements CatalogService {
     CountryDao countryDao;
     DocDao docDao;
 
+    /**
+     * Конструктор
+     * @param countryDao Dao для работы со странами
+     * @param docDao Dao для работы с документами
+     */
     @Autowired
     public CatalogServiceImpl(CountryDao countryDao, DocDao docDao) {
         this.countryDao = countryDao;
         this.docDao = docDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<CountryView> getCountries() {
@@ -34,6 +46,9 @@ public class CatalogServiceImpl implements CatalogService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<DocView> getDocs() {

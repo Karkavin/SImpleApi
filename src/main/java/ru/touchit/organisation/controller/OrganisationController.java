@@ -22,15 +22,28 @@ import ru.touchit.util.BindingResultParser;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер для работы с организациями
+ * @autor Artyom Karkavin
+ */
 @RestController
 public class OrganisationController {
     private final OrganisationService organisationService;
 
+    /**
+     * Конструктор
+     * @param organisationService - сервис для работы с данными
+     */
     @Autowired
     public OrganisationController(OrganisationService organisationService) {
         this.organisationService = organisationService;
     }
 
+    /**
+     * Получение подробной информации об организации
+     * @param id идентификатор организации
+     * @return data: подробная информация об организации
+     */
     @RequestMapping(value="/api/organisation/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> detail(@PathVariable Long id) {
         FullOrganisationView organisationView;
@@ -44,6 +57,12 @@ public class OrganisationController {
         return ResponseEntity.ok().body(new DataResponse<>(organisationView));
     }
 
+    /**
+     * Создание новой организации
+     * @param organisationView JSON (без id)
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/organisation/save", method = RequestMethod.POST)
     public ResponseEntity<?> save(@RequestBody @Valid BaseOrganisationView organisationView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -57,6 +76,12 @@ public class OrganisationController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Обновление организации
+     * @param organisationView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: результат операции
+     */
     @RequestMapping(value="/api/organisation/update", method = RequestMethod.POST)
     public ResponseEntity<?> update(@RequestBody @Valid FullOrganisationView organisationView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -74,6 +99,12 @@ public class OrganisationController {
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
     }
 
+    /**
+     * Получение списка организаций с применением фильтров
+     * @param organisationView JSON
+     * @param bindingResult информация о результатах валидации JSON
+     * @return data: список организаций
+     */
     @RequestMapping(value="/api/organisation/list", method = RequestMethod.POST)
     public ResponseEntity<?> filter(@RequestBody @Valid FilterOrganisationView organisationView, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

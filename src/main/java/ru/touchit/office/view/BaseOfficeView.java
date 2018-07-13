@@ -5,26 +5,42 @@ import ru.touchit.office.model.Office;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * View для представления подробной информации об офисе (без id)
+ * @autor Artyom Karkavin
+ */
 public class BaseOfficeView {
+    /** Поле: наименование */
     @NotNull
     @Size(max = 50)
     private String name;
 
+    /** Поле: адрес */
     @NotNull
     @Size(max = 100)
     private String address;
 
+    /** Поле: телефон */
     @Size(max = 20)
     private String phone;
 
+    /** Поле: статус офиса (активен ли) */
     private Boolean isActive = true;
 
+    /** Поле: идентификатор организации */
     private long orgId;
 
+    /**
+     * Конструктор
+     */
     public BaseOfficeView() {
 
     }
 
+    /**
+     * Конструктор
+     * @param office Entity сущности Офис
+     */
     public BaseOfficeView(Office office) {
         this.name = office.getName();
         this.address = office.getAddress();

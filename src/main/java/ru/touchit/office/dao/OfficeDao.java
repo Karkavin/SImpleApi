@@ -8,7 +8,18 @@ import ru.touchit.organisation.model.Organisation;
 
 import java.util.List;
 
+/**
+ * Dao для работы с офисами
+ * @autor Artyom Karkavin
+ */
 public interface OfficeDao extends CrudRepository<Office, Long> {
+    /**
+     * Получение списка офисов организации с применением фильтров
+     * @param organisation сущность Организация
+     * @param name наименование
+     * @param phone телефон
+     * @return список офисов организации
+     */
     @Query("SELECT o FROM Office o WHERE " +
             "   o.organisation = :organisation " +
             "   AND LOWER(o.name) LIKE LOWER(CONCAT('%', :name, '%')) " +
@@ -17,6 +28,14 @@ public interface OfficeDao extends CrudRepository<Office, Long> {
                                             @Param("name") String name,
                                             @Param("phone") String phone);
 
+    /**
+     * Получение списка офисов организации с применением фильтров
+     * @param organisation сущность Организация
+     * @param name наименование
+     * @param phone телефон
+     * @param active статус офиса (активен ли)
+     * @return список офисов организации
+     */
     @Query("SELECT o FROM Office o WHERE " +
             "   o.organisation = :organisation " +
             "   AND LOWER(o.name) LIKE LOWER(CONCAT('%', :name, '%')) " +

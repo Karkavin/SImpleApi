@@ -16,15 +16,26 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ * @autor Artyom Karkavin
+ */
 @Service("organisationService")
 public class OrganisationServiceImpl implements OrganisationService {
     OrganisationDao organisationDao;
 
+    /**
+     * Конструктор
+     * @param organisationDao Dao для работы с организациями
+     */
     @Autowired
     public OrganisationServiceImpl(OrganisationDao organisationDao) {
         this.organisationDao = organisationDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public FullOrganisationView getById(Long id) throws NoSuchOrganisationException {
@@ -37,6 +48,9 @@ public class OrganisationServiceImpl implements OrganisationService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void add(BaseOrganisationView organisationView) {
@@ -51,6 +65,9 @@ public class OrganisationServiceImpl implements OrganisationService {
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(FullOrganisationView organisationView) throws NoSuchOrganisationException {
@@ -72,6 +89,9 @@ public class OrganisationServiceImpl implements OrganisationService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<FilterResultOrganisationView> filter(FilterOrganisationView organisationView) {

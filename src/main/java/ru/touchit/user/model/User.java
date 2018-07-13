@@ -18,59 +18,82 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+/**
+ * Entity для сущности Сотрудник
+ * @autor Artyom Karkavin
+ */
 @Entity
 @Table(name = "user", catalog = "public")
 public class User {
+    /** Поле: идентификатор */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    /** Поле: имя */
     @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
 
+    /** Поле: фамилия */
     @Column(name = "second_name", length = 30)
     private String secondName;
 
+    /** Поле: отчество */
     @Column(name = "middle_name", length = 30)
     private String middleName;
 
+    /** Поле: должность */
     @Column(name = "position", nullable = false, length = 50)
     private String position;
 
+    /** Поле: телефон */
     @Column(name = "phone", length = 20)
     private String phone;
 
+    /** Поле: номер документа */
     @Column(name = "doc_number", length = 30)
     private String docNumber;
 
+    /** Поле: дата выдачи документа */
     @Column(name = "doc_date")
     @Temporal(TemporalType.DATE)
     private Date docDate;
 
+    /** Поле: идентифицирован ли сотрудник */
     @Column(name = "is_identified")
     private boolean isIdentified = false;
 
+    /** Поле: связь с сущностью Документ */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_code")
     private Doc doc;
 
+    /** Поле: связь с сущностью Страна */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code")
     private Country country;
 
+    /** Поле: связь с сущностью Организация */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private Organisation organisation;
 
+    /** Поле: связь с сущностью Офис */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "off_id", nullable = false)
     private Office office;
 
+    /**
+     * Конструктор
+     */
     public User() {
 
     }
 
+    /**
+     * Конструктор
+     */
     public User(Organisation organisation, Office office, Doc doc, Country country, String firstName, String secondName, String middleName, String position, String phone, String docNumber, Date docDate, boolean isIdentified) {
         this.organisation = organisation;
         this.office = office;
