@@ -16,6 +16,7 @@ import ru.touchit.api.organisation.dao.OrganisationDao;
 import ru.touchit.api.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.api.organisation.model.Organisation;
 import ru.touchit.api.user.dao.UserDao;
+import ru.touchit.api.user.dao.UserFilterDao;
 import ru.touchit.api.user.exception.IncorrectDateException;
 import ru.touchit.api.user.exception.NoSuchUserException;
 import ru.touchit.api.office.exception.OfficeDoesNotInOrganisationException;
@@ -40,24 +41,27 @@ import java.util.stream.Collectors;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    UserDao userDao;
-    OrganisationDao organisationDao;
-    OfficeDao officeDao;
-    DocDao docDao;
-    CountryDao countryDao;
+    private final UserDao userDao;
+    private final UserFilterDao userFilterDao;
+    private final OrganisationDao organisationDao;
+    private final OfficeDao officeDao;
+    private final DocDao docDao;
+    private final CountryDao countryDao;
 
     /**
      * Конструктор
      * @param userDao Dao для работы с сотрудниками
+     * @param userFilterDao Dao с филтрами для работы с сотрудниками
      * @param organisationDao Dao для работы с организациями
      * @param officeDao Dao для работы с офисами
      * @param docDao Dao для работы с документами
      * @param countryDao Dao для работы со странами
      */
     @Autowired
-    public UserServiceImpl(UserDao userDao, OrganisationDao organisationDao,
+    public UserServiceImpl(UserDao userDao, UserFilterDao userFilterDao, OrganisationDao organisationDao,
                            OfficeDao officeDao, DocDao docDao, CountryDao countryDao){
         this.userDao = userDao;
+        this.userFilterDao = userFilterDao;
         this.organisationDao = organisationDao;
         this.officeDao = officeDao;
         this.docDao = docDao;
@@ -137,21 +141,8 @@ public class UserServiceImpl implements UserService {
         if (!optionalOffice.isPresent()) {
             throw new NoSuchOfficeException("No such office with id " + userView.getOffId());
         } else {
-            String firstName = "", secondName = "", middleName = "", position = "";
-            if (userView.getFirstName() != null){
-                firstName = userView.getFirstName();
-            }
-            if (userView.getSecondName() != null){
-                secondName = userView.getSecondName();
-            }
-            if (userView.getMiddleName() != null){
-                middleName = userView.getMiddleName();
-            }
-            if (userView.getPosition() != null){
-                position = userView.getPosition();
-            }
-            return userDao.findByOfficeAndNameAndPositionAndDocAndCountry(optionalOffice.get(), firstName,
-                    secondName, middleName, position, doc, country)
+            return userFilterDao.filter(optionalOffice.get(), userView.getFirstName(), userView.getSecondName(),
+                    userView.getMiddleName(), userView.getPosition(), doc, country)
                     .stream()
                     .map(mapUser())
                     .collect(Collectors.toList());

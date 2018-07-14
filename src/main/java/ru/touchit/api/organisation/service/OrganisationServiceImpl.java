@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.touchit.api.organisation.dao.OrganisationDao;
+import ru.touchit.api.organisation.dao.OrganisationFilterDao;
 import ru.touchit.api.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.api.organisation.model.Organisation;
 import ru.touchit.api.organisation.view.BaseOrganisationView;
@@ -22,15 +23,18 @@ import java.util.stream.Collectors;
  */
 @Service("organisationService")
 public class OrganisationServiceImpl implements OrganisationService {
-    OrganisationDao organisationDao;
+    private final OrganisationDao organisationDao;
+    private final OrganisationFilterDao organisationFilterDao;
 
     /**
      * Конструктор
      * @param organisationDao Dao для работы с организациями
+     * @param organisationFilterDao Dao с фильтрами для работы с организациями
      */
     @Autowired
-    public OrganisationServiceImpl(OrganisationDao organisationDao) {
+    public OrganisationServiceImpl(OrganisationDao organisationDao, OrganisationFilterDao organisationFilterDao) {
         this.organisationDao = organisationDao;
+        this.organisationFilterDao = organisationFilterDao;
     }
 
     /**
@@ -95,22 +99,10 @@ public class OrganisationServiceImpl implements OrganisationService {
     @Override
     @Transactional(readOnly = true)
     public List<FilterResultOrganisationView> filter(FilterOrganisationView organisationView) {
-        String inn = organisationView.getInn();
-        if (inn == null) {
-            inn = "";
-        }
-
-        if (organisationView.getIsActive() != null) {
-            return organisationDao.findByNameAndInnAndIsActive(organisationView.getName(), inn, organisationView.getIsActive())
-                    .stream()
-                    .map(mapOrganisation())
-                    .collect(Collectors.toList());
-        } else {
-            return organisationDao.findByNameAndInn(organisationView.getName(), inn)
-                    .stream()
-                    .map(mapOrganisation())
-                    .collect(Collectors.toList());
-        }
+        return organisationFilterDao.filter(organisationView.getName(), organisationView.getInn(), organisationView.getIsActive())
+                .stream()
+                .map(mapOrganisation())
+                .collect(Collectors.toList());
     }
 
     private Function<Organisation, FilterResultOrganisationView> mapOrganisation() {

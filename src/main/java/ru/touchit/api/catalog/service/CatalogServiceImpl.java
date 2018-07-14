@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
  */
 @Service("catalogService")
 public class CatalogServiceImpl implements CatalogService {
-    CountryDao countryDao;
-    DocDao docDao;
+    private final CountryDao countryDao;
+    private final DocDao docDao;
 
     /**
      * Конструктор

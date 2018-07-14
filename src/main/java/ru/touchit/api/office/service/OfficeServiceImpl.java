@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.touchit.api.office.dao.OfficeDao;
+import ru.touchit.api.office.dao.OfficeFilterDao;
 import ru.touchit.api.office.exception.NoSuchOfficeException;
 import ru.touchit.api.office.model.Office;
 import ru.touchit.api.office.view.BaseOfficeView;
@@ -25,17 +26,20 @@ import java.util.stream.Collectors;
  */
 @Service("officeService")
 public class OfficeServiceImpl implements OfficeService {
-    OfficeDao officeDao;
-    OrganisationDao organisationDao;
+    private final OfficeDao officeDao;
+    private final OfficeFilterDao officeFilterDao;
+    private final OrganisationDao organisationDao;
 
     /**
      * Конструктор
      * @param officeDao Dao для работы с офисами
+     * @param officeFilterDao Dao с фильтрами для работы с офисами
      * @param organisationDao Dao для работы с организациями
      */
     @Autowired
-    public OfficeServiceImpl(OfficeDao officeDao, OrganisationDao organisationDao) {
+    public OfficeServiceImpl(OfficeDao officeDao, OfficeFilterDao officeFilterDao, OrganisationDao organisationDao) {
         this.officeDao = officeDao;
+        this.officeFilterDao = officeFilterDao;
         this.organisationDao = organisationDao;
     }
 
@@ -111,27 +115,10 @@ public class OfficeServiceImpl implements OfficeService {
         if (!optional.isPresent()) {
             throw new NoSuchOrganisationException("No such organisation with id " + officeView.getOrgId());
         } else {
-
-            String name = officeView.getName();
-            String phone = officeView.getPhone();
-            if (name == null) {
-                name = "";
-            }
-            if (phone == null) {
-                phone = "";
-            }
-
-            if (officeView.getIsActive() == null) {
-                return officeDao.findByOrgIdAndNameAndPhone(optional.get(), name, phone)
-                        .stream()
-                        .map(mapOffice())
-                        .collect(Collectors.toList());
-            } else {
-                return officeDao.findByOrgIdAndNameAndPhoneAndIsActive(optional.get(), name, phone, officeView.getIsActive())
-                        .stream()
-                        .map(mapOffice())
-                        .collect(Collectors.toList());
-            }
+            return officeFilterDao.filter(optional.get(), officeView.getName(), officeView.getPhone(), officeView.getIsActive())
+                    .stream()
+                    .map(mapOffice())
+                    .collect(Collectors.toList());
         }
     }
 
