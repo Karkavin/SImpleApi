@@ -4,7 +4,7 @@ import org.springframework.validation.BindingResult;
 
 /**
  * Парсер результата валидации приходящего JSON
- * @autor Artyom Karkavin
+ * @author Artyom Karkavin
  */
 public class BindingResultParser {
     /**
