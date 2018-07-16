@@ -70,7 +70,7 @@ public class UserFilterDaoImpl implements UserFilterDao {
         if (doc == null) {
             predicateDoc = criteriaBuilder.conjunction();
         } else {
-            predicateDoc = criteriaBuilder.equal(root.get("doc"), doc);
+            predicateDoc = criteriaBuilder.equal(root.get("userDoc").get("doc"), doc);
         }
         Predicate predicateCountry;
         if (country == null) {

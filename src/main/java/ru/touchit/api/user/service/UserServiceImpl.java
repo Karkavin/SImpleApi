@@ -16,11 +16,13 @@ import ru.touchit.api.organisation.dao.OrganisationDao;
 import ru.touchit.api.organisation.exception.NoSuchOrganisationException;
 import ru.touchit.api.organisation.model.Organisation;
 import ru.touchit.api.user.dao.UserDao;
+import ru.touchit.api.user.dao.UserDocDao;
 import ru.touchit.api.user.dao.UserFilterDao;
 import ru.touchit.api.user.exception.IncorrectDateException;
 import ru.touchit.api.user.exception.NoSuchUserException;
 import ru.touchit.api.office.exception.OfficeDoesNotInOrganisationException;
 import ru.touchit.api.user.model.User;
+import ru.touchit.api.user.model.UserDoc;
 import ru.touchit.api.user.view.BaseUserView;
 import ru.touchit.api.user.view.FilterResultUserView;
 import ru.touchit.api.user.view.FilterUserView;
@@ -42,6 +44,7 @@ import java.util.stream.Collectors;
 @Service("userService")
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
+    private final UserDocDao userDocDao;
     private final UserFilterDao userFilterDao;
     private final OrganisationDao organisationDao;
     private final OfficeDao officeDao;
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Конструктор
      * @param userDao Dao для работы с сотрудниками
+     * @param userDocDao Dao для работы с документами сотрудников
      * @param userFilterDao Dao с филтрами для работы с сотрудниками
      * @param organisationDao Dao для работы с организациями
      * @param officeDao Dao для работы с офисами
@@ -58,9 +62,10 @@ public class UserServiceImpl implements UserService {
      * @param countryDao Dao для работы со странами
      */
     @Autowired
-    public UserServiceImpl(UserDao userDao, UserFilterDao userFilterDao, OrganisationDao organisationDao,
+    public UserServiceImpl(UserDao userDao, UserDocDao userDocDao, UserFilterDao userFilterDao, OrganisationDao organisationDao,
                            OfficeDao officeDao, DocDao docDao, CountryDao countryDao){
         this.userDao = userDao;
+        this.userDocDao = userDocDao;
         this.userFilterDao = userFilterDao;
         this.organisationDao = organisationDao;
         this.officeDao = officeDao;
@@ -128,6 +133,7 @@ public class UserServiceImpl implements UserService {
                 throw new NoSuchDocException("No such doc with id " + userView.getDocCode());
             }
         }
+
         Country country = null;
         if (userView.getCitizenshipCode() != null) {
             Optional<Country> optionalCountry = countryDao.findById(userView.getCitizenshipCode());
@@ -164,14 +170,17 @@ public class UserServiceImpl implements UserService {
                 throw new OfficeDoesNotInOrganisationException("No office with id = " + optionalOffice.get().getId() +
                         " in organisation with id = " + optionalOrganisation.get().getId());
             }
+
             DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-            Date date;
-            try {
-                formatter.setLenient(false);
-                date = formatter.parse(userView.getDocDate());
-            } catch (ParseException e) {
-                throw new IncorrectDateException("Incorrect date: " + userView.getDocDate() +
-                        ". Date should be formatted to : MM-dd-yyyy");
+            Date date = null;
+            if (userView.getDocDate() != null) {
+                try {
+                    formatter.setLenient(false);
+                    date = formatter.parse(userView.getDocDate());
+                } catch (ParseException e) {
+                    throw new IncorrectDateException("Incorrect date: " + userView.getDocDate() +
+                            ". Date should be formatted to : MM-dd-yyyy");
+                }
             }
 
             Optional<Doc> optionalDoc = null;
@@ -189,35 +198,51 @@ public class UserServiceImpl implements UserService {
                 }
             }
 
+            boolean isDocContainsAndValid = optionalDoc != null && optionalDoc.isPresent();
             if (isNew) {
+                UserDoc userDoc = null;
+                if (userView.getDocNumber() != null || userView.getDocDate() != null || isDocContainsAndValid) {
+                    userDoc = userDocDao.save(new UserDoc(userView.getDocNumber(), date, isDocContainsAndValid ? optionalDoc.get() : null));
+                }
                 userDao.save(new User(
-                        optionalOrganisation.get(),
-                        optionalOffice.get(),
-                        optionalDoc != null ? optionalDoc.get() : null,
-                        optionalCountry != null ? optionalCountry.get() : null,
                         userView.getFirstName(),
                         userView.getSecondName(),
                         userView.getMiddleName(),
                         userView.getPosition(),
                         userView.getPhone(),
-                        userView.getDocNumber(),
-                        date,
-                        userView.getIsIdentified()
+                        userView.getIsIdentified(),
+                        userDoc,
+                        optionalCountry != null ? optionalCountry.get() : null,
+                        optionalOrganisation.get(),
+                        optionalOffice.get()
                 ));
             } else {
                 FullUserView fullUserView = (FullUserView) userView;
                 User userFromDb = userDao.findById(fullUserView.getId()).get();
+                UserDoc userDocFromDb = userFromDb.getUserDoc();
+                if (userView.getDocNumber() != null || userView.getDocDate() != null || isDocContainsAndValid) {
+                    if (userDocFromDb == null) {
+                        userDocFromDb = userDocDao.save(new UserDoc(userView.getDocNumber(), date, isDocContainsAndValid ? optionalDoc.get() : null));
+                    } else {
+                        userDocFromDb.setDocNumber(userView.getDocNumber());
+                        userDocFromDb.setDocDate(date);
+                        userDocFromDb.setDoc(isDocContainsAndValid ? optionalDoc.get() : null);
+                    }
+                    userFromDb.setUserDoc(userDocFromDb);
+                } else if (userDocFromDb != null) {
+                    userDocDao.delete(userDocFromDb);
+                    userFromDb.setUserDoc(null);
+                } else {
+                    userFromDb.setUserDoc(null);
+                }
                 userFromDb.setOrganisation(optionalOrganisation.get());
                 userFromDb.setOffice(optionalOffice.get());
-                userFromDb.setDoc(optionalDoc != null ? optionalDoc.get() : null);
                 userFromDb.setCountry(optionalCountry != null ? optionalCountry.get() : null);
                 userFromDb.setFirstName(userView.getFirstName());
                 userFromDb.setSecondName(userView.getSecondName());
                 userFromDb.setMiddleName(userView.getMiddleName());
                 userFromDb.setPosition(userView.getPosition());
                 userFromDb.setPhone(userView.getPhone());
-                userFromDb.setDocNumber(userView.getDocNumber());
-                userFromDb.setDocDate(date);
                 userFromDb.setIsIdentified(userView.getIsIdentified());
                 userDao.save(userFromDb);
             }

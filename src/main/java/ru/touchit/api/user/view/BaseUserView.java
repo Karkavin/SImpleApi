@@ -1,6 +1,7 @@
 package ru.touchit.api.user.view;
 
 import ru.touchit.api.user.model.User;
+import ru.touchit.api.user.model.UserDoc;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -76,15 +77,21 @@ public class BaseUserView {
         this.middleName = user.getMiddleName();
         this.position = user.getPosition();
         this.phone = user.getPhone();
-        this.docNumber = user.getDocNumber();
-        Date date = user.getDocDate();
-        this.docDate = new SimpleDateFormat("MM-dd-yyyy").format(date);
         this.isIdentified = user.getIsIdentified();
         this.setOrgId(user.getOrganisation().getId());
         this.setOffId(user.getOffice().getId());
-        if (user.getDoc() != null) {
-            this.docCode = user.getDoc().getCode();
+
+        if (user.getUserDoc() != null) {
+            UserDoc userDoc = user.getUserDoc();
+            this.docNumber = userDoc.getDocNumber();
+            Date date = userDoc.getDocDate();
+            this.docDate = new SimpleDateFormat("MM-dd-yyyy").format(date);
+
+            if (userDoc.getDoc() != null) {
+                this.docCode = userDoc.getDoc().getCode();
+            }
         }
+
         if (user.getCountry() != null) {
             this.citizenshipCode = user.getCountry().getCode();
         }
