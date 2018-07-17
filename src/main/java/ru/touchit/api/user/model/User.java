@@ -1,10 +1,10 @@
 package ru.touchit.api.user.model;
 
 import ru.touchit.api.catalog.model.Country;
-import ru.touchit.api.catalog.model.Doc;
 import ru.touchit.api.office.model.Office;
 import ru.touchit.api.organisation.model.Organisation;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 
 /**
  * Entity для сущности Сотрудник
@@ -51,23 +49,13 @@ public class User {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    /** Поле: номер документа */
-    @Column(name = "doc_number", length = 30)
-    private String docNumber;
-
-    /** Поле: дата выдачи документа */
-    @Column(name = "doc_date")
-    @Temporal(TemporalType.DATE)
-    private Date docDate;
-
     /** Поле: идентифицирован ли сотрудник */
     @Column(name = "is_identified")
     private boolean isIdentified = false;
 
-    /** Поле: связь с сущностью Документ */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_code")
-    private Doc doc;
+    /** Поле: связь с сущностью Документ Сотрудника */
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserDoc userDoc;
 
     /** Поле: связь с сущностью Страна */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -93,24 +81,29 @@ public class User {
 
     /**
      * Конструктор
-     * @see Organisation
-     * @see Office
-     * @see Doc
-     * @see Country
+     * @param firstName
+     * @param secondName
+     * @param middleName
+     * @param position
+     * @param phone
+     * @param isIdentified
+     * @param userDoc
+     * @param country
+     * @param organisation
+     * @param office
      */
-    public User(Organisation organisation, Office office, Doc doc, Country country, String firstName, String secondName, String middleName, String position, String phone, String docNumber, Date docDate, boolean isIdentified) {
-        this.organisation = organisation;
-        this.office = office;
-        this.doc = doc;
-        this.country = country;
+    public User(String firstName, String secondName, String middleName, String position, String phone,
+                boolean isIdentified, UserDoc userDoc, Country country, Organisation organisation, Office office) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.middleName = middleName;
         this.position = position;
         this.phone = phone;
-        this.docNumber = docNumber;
-        this.docDate = docDate;
         this.isIdentified = isIdentified;
+        setUserDoc(userDoc);
+        this.country = country;
+        this.organisation = organisation;
+        this.office = office;
     }
 
     public Long getId() {
@@ -161,36 +154,23 @@ public class User {
         this.phone = phone;
     }
 
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
-    }
-
-    public Date getDocDate() {
-        return docDate;
-    }
-
-    public void setDocDate(Date docDate) {
-        this.docDate = docDate;
-    }
-
     public boolean getIsIdentified() {
         return isIdentified;
     }
 
-    public void setIsIdentified(boolean identified) {
-        isIdentified = identified;
+    public void setIsIdentified(boolean isIdentified) {
+         this.isIdentified = isIdentified;
     }
 
-    public Doc getDoc() {
-        return doc;
+    public UserDoc getUserDoc() {
+        return userDoc;
     }
 
-    public void setDoc(Doc doc) {
-        this.doc = doc;
+    public void setUserDoc(UserDoc userDoc) {
+        this.userDoc = userDoc;
+        if (userDoc != null) {
+            this.userDoc.setUser(this);
+        }
     }
 
     public Country getCountry() {

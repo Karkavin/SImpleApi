@@ -2,7 +2,6 @@ package ru.touchit.api.catalog.model;
 
 import ru.touchit.api.user.model.User;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,7 +27,7 @@ public class Country {
     private String name;
 
     /** Поле: связь с сущностью Сотрудник */
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "country")
     private Set<User> users;
 
     /**

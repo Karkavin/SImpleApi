@@ -1,6 +1,6 @@
 package ru.touchit.api.catalog.model;
 
-import ru.touchit.api.user.model.User;
+import ru.touchit.api.user.model.UserDoc;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,9 +27,9 @@ public class Doc {
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    /** Поле: связь с сущностью Сотрудник */
-    @OneToMany(mappedBy = "doc", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> users;
+    /** Поле: связь с сущностью Документ Сотрудника */
+    @OneToMany(mappedBy = "doc")
+    private Set<UserDoc> userDocs;
 
     /**
      * Конструктор
@@ -54,20 +54,20 @@ public class Doc {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        if (users == null){
-            users = new HashSet<>();
+    public Set<UserDoc> getUserDocs() {
+        if (userDocs == null){
+            userDocs = new HashSet<>();
         }
-        return users;
+        return userDocs;
     }
 
-    public void addUser(User user) {
-        getUsers().add(user);
-        user.setDoc(this);
+    public void addUserDoc(UserDoc userDoc) {
+        getUserDocs().add(userDoc);
+        userDoc.setDoc(this);
     }
 
-    public void removeOffice(User user) {
-        getUsers().remove(user);
-        user.setDoc(null);
+    public void removeUserDoc(UserDoc userDoc) {
+        getUserDocs().remove(userDoc);
+        userDoc.setDoc(null);
     }
 }
