@@ -84,6 +84,17 @@ public class Organisation {
         this.isActive = isActive;
     }
 
+    /**
+     * Конструктор
+     */
+    public Organisation(String name, String fullName, String inn, String kpp, String address) {
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }

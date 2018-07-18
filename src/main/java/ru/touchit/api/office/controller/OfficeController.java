@@ -54,7 +54,7 @@ public class OfficeController {
 
             return ResponseEntity.ok().body(new DataResponse<>(officeView));
         } catch (NoSuchOfficeException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден (поле id)"));
         }
     }
 
@@ -76,7 +76,7 @@ public class OfficeController {
         try {
             officeService.add(officeView);
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле orgId)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
@@ -100,9 +100,9 @@ public class OfficeController {
         try {
             officeService.update(officeView);
         } catch (NoSuchOfficeException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден (поле id)"));
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле orgId)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
@@ -128,7 +128,7 @@ public class OfficeController {
         try {
             officeViews = officeService.filter(officeView);
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле orgId)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(officeViews));

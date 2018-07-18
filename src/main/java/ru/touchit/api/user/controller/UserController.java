@@ -59,7 +59,7 @@ public class UserController {
 
             return ResponseEntity.ok().body(new DataResponse<>(userView));
         } catch (NoSuchUserException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Пользователь не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Пользователь не был найден (поле id)"));
         }
     }
 
@@ -81,17 +81,17 @@ public class UserController {
         try {
             userService.add(userView);
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле orgId)"));
         } catch (NoSuchOfficeException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден (поле offId)"));
         } catch (IncorrectDateException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Неверный формат даты (требуется: MM-dd-yyyy)"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Неверный формат даты (требуется: MM-dd-yyyy) (поле docDate)"));
         } catch (NoSuchDocException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе (поле docCode)"));
         } catch (NoSuchCountryException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе (поле citizenshipCode)"));
         } catch (OfficeDoesNotInOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации (поля orgId и offId)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
@@ -115,19 +115,19 @@ public class UserController {
         try {
             userService.update(userView);
         } catch (NoSuchOfficeException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден (поле offId)"));
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле orgId)"));
         } catch (NoSuchUserException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Пользователь не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Сотрудник не был найден (поле id)"));
         } catch (IncorrectDateException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Неверный формат даты (требуется: MM-dd-yyyy)"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Неверный формат даты (требуется: MM-dd-yyyy) (поле docDate)"));
         } catch (NoSuchCountryException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе (поле citizenshipCode)"));
         } catch (NoSuchDocException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе (поле docCode)"));
         } catch (OfficeDoesNotInOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Данного офиса не существует в указанной организации (поля orgId и offId)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));
@@ -153,11 +153,11 @@ public class UserController {
         try {
              userViews = userService.filter(userView);
         } catch (NoSuchOfficeException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Офис не был найден (поле offId)"));
         } catch (NoSuchDocException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код документа отсутствует в базе (поле docCode)"));
         } catch (NoSuchCountryException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Код страны отсутствует в базе (поле citizenshipCode)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(userViews));

@@ -57,9 +57,7 @@ public class UserDoc {
 
     /**
      * Конструктор
-     * @param docNumber
-     * @param docDate
-     * @param doc
+     * @see Doc
      */
     public UserDoc(String docNumber, Date docDate, Doc doc) {
         this.docNumber = docNumber;

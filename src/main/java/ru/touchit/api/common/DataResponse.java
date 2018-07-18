@@ -10,6 +10,13 @@ public class DataResponse<T> {
 
     /**
      * Конструктор
+     */
+    public DataResponse() {
+
+    }
+
+    /**
+     * Конструктор
      * @param data содержимое ответа
      */
     public DataResponse(T data){

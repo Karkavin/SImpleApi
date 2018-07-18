@@ -81,16 +81,10 @@ public class User {
 
     /**
      * Конструктор
-     * @param firstName
-     * @param secondName
-     * @param middleName
-     * @param position
-     * @param phone
-     * @param isIdentified
-     * @param userDoc
-     * @param country
-     * @param organisation
-     * @param office
+     * @see UserDoc
+     * @see Country
+     * @see Organisation
+     * @see Office
      */
     public User(String firstName, String secondName, String middleName, String position, String phone,
                 boolean isIdentified, UserDoc userDoc, Country country, Organisation organisation, Office office) {

@@ -53,7 +53,7 @@ public class OrganisationController {
         try {
             organisationView = organisationService.getById(id);
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле id)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(organisationView));
@@ -97,7 +97,7 @@ public class OrganisationController {
         try {
             organisationService.update(organisationView);
         } catch (NoSuchOrganisationException e) {
-            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена"));
+            return ResponseEntity.unprocessableEntity().body(new ErrorResponse("Организация не была найдена (поле id)"));
         }
 
         return ResponseEntity.ok().body(new DataResponse<>(new ResultResponse("Success")));

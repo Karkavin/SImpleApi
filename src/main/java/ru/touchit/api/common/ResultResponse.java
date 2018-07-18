@@ -10,6 +10,13 @@ public class ResultResponse {
 
     /**
      * Конструктор
+     */
+    public ResultResponse() {
+
+    }
+
+    /**
+     * Конструктор
      * @param result результат работы запроса
      */
     public ResultResponse(String result) {

@@ -10,6 +10,13 @@ public class ErrorResponse {
 
     /**
      * Конструктор
+     */
+    public ErrorResponse() {
+
+    }
+
+    /**
+     * Конструктор
      * @param error пояснение ошибки
      */
     public ErrorResponse(String error) {
